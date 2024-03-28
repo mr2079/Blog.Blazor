@@ -13,11 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{A83FEA27-14C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7BAAAD4F-685F-42ED-8B52-07FB6C3E5B81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Application", "src\Application\Blog.Application\Blog.Application.csproj", "{1B2E5617-A234-439F-86D7-EFDC1B364C31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Application", "src\Application\Blog.Application\Blog.Application.csproj", "{1B2E5617-A234-439F-86D7-EFDC1B364C31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Domain", "src\Domain\Blog.Domain\Blog.Domain.csproj", "{0C71F588-BF8F-4EEE-A9E9-827A1BD34146}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Domain", "src\Domain\Blog.Domain\Blog.Domain.csproj", "{0C71F588-BF8F-4EEE-A9E9-827A1BD34146}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Infrastructure", "src\Infrastructure\Blog.Infrastructure\Blog.Infrastructure.csproj", "{E6F5E7EA-5027-492E-9050-19654C55238C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Infrastructure", "src\Infrastructure\Blog.Infrastructure\Blog.Infrastructure.csproj", "{E6F5E7EA-5027-492E-9050-19654C55238C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{BC8D7DE6-7796-4446-A52F-3BD6ACB016AC}"
 EndProject

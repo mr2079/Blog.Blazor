@@ -1,18 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 
 <head>
-    <meta charset="utf-8" />
+    <!-- Meta -->
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog.Client</title>
-    <base href="/" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/app.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
+    <meta name="description"
+          content="جایی برای نوشتن و به اشتراک گذاشتن - آموزش، اخبار، سرگرمی، علمی و تازه های دنیای دیجیتال" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- favicon -->
+    <link rel="icon" sizes="16x16" href="/favicon.ico">
+    <!-- Title -->
+    <!-- CSS Plugins -->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/elegant-font-icons.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/owl.carousel.css">
+    <link rel="stylesheet" href="/assets/css/sweetalert2.min.css" />
+    <!-- main style -->
+    <link rel="stylesheet" href="/assets/css/style.css">
     <link href="Blog.Client.styles.css" rel="stylesheet" />
 </head>
 
-<body>
+<body class="rtl">
+
     <div id="app">
         <svg class="loading-progress">
             <circle r="40%" cx="50%" cy="50%" />
@@ -26,7 +37,33 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+
     <script src="_framework/blazor.webassembly.js"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <!-- JS Plugins  -->
+    <script src="/assets/js/owl.carousel.min.js"></script>
+    <script src="/assets/js/switch.js"></script>
+    <script src="/assets/js/sweetalert2.min.js"></script>
+    <!-- JS main  -->
+    <script src="/assets/js/main.js"></script>
+    <script>
+        const newsLettreOnSubmit = (e) => {
+            e.preventDefault();
+            if (e.target[0].value) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'ایمیل شما با موفقیت ثبت شد',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                e.target[0].value = "";
+            }
+        }
+    </script>
 </body>
 
 </html>
