@@ -1,114 +1,124 @@
 ﻿<style>
-    .nav-button {
-        outline: none !important;
-        background-color: transparent !important;
-        border: none !important;
-    }
+	.nav-button {
+		outline: none !important;
+		background-color: transparent !important;
+		border: none !important;
+	}
 
-    .user-panel div {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        margin-left: 8px;
-        overflow: hidden;
-    }
+	.user-panel div {
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		margin-left: 8px;
+		overflow: hidden;
+	}
 
-    .user-panel div img {
-        object-fit: cover;
-            width: 100%;
-            height: 100%;
-    }
+		.user-panel div img {
+			object-fit: cover;
+			width: 100%;
+			height: 100%;
+		}
 
-    .user-panel span {
-        font-size: 12px;
-    }
+	.user-panel span {
+		font-size: 12px;
+	}
 </style>
 
 <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container-fluid">
-        <!--logo-->
-        <div class="logo">
-            <a asp-controller="Home" asp-action="Index">
-                <img src="/assets/img/logo-dark.png" alt="نانپوست" class="logo-dark">
-                <img src="/assets/img/logo-white.png" alt="نانپوست" class="logo-white">
-            </a>
-        </div>
-        <!--/-->
-        <!--navbar-collapse-->
-        <div class="collapse navbar-collapse" id="main_nav">
-            <ul class="navbar-nav ml-auto mr-auto">
+	<div class="container-fluid">
+		<!--logo-->
+		<div class="logo">
+			<a asp-controller="Home" asp-action="Index">
+				<img src="/assets/img/logo-dark.png" alt="نانپوست" class="logo-dark">
+				<img src="/assets/img/logo-white.png" alt="نانپوست" class="logo-white">
+			</a>
+		</div>
+		<!--/-->
+		<!--navbar-collapse-->
+		<div class="collapse navbar-collapse" id="main_nav">
+			<ul class="navbar-nav ml-auto mr-auto">
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="javascript:void(0)"
-                        data-toggle="dropdown">دسته&zwnj;بندی&zwnj;ها</a>
-                    <ul class="dropdown-menu fade-up">
-                        @* @foreach (var category in categories)
-                        {
-                            <li>
-                                <a class="dropdown-item" 
-                                asp-controller="Article"
-                                asp-action="Category"
-                                asp-route-categoryCId="@category.CId"
-                                asp-route-categoryTitle="@category.Title.Replace(" ", "-")"> @category.Title </a>
-                            </li>
-                        } *@
-                    </ul>
-                </li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="javascript:void(0)"
+					   data-toggle="dropdown">دسته&zwnj;بندی&zwnj;ها</a>
+					<ul class="dropdown-menu fade-up">
+						@* @foreach (var category in categories)
+						{
+						<li>
+						<a class="dropdown-item"
+						asp-controller="Article"
+						asp-action="Category"
+						asp-route-categoryCId="@category.CId"
+						asp-route-categoryTitle="@category.Title.Replace(" ", "-")"> @category.Title </a>
+						</li>
+						} *@
+					</ul>
+				</li>
 
-                @* @if (User.Identity.IsAuthenticated)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link user-panel d-flex align-items-center"
-                            asp-controller="User" 
-                            asp-action="Index"
-                            asp-route-userCId="@currentUser.CId"
-                       asp-route-userName="@currentUser.FullName.Replace(" ", "-")">
-                            <div>
-                                <img src="~/images/users/thumb60/@currentUser.ImageName"
-                                    alt="@currentUser.FullName" />
-                            </div>
-                            <span>@currentUser.FullName</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <form asp-controller="Account" asp-action="Logout" method="post">
-                            <button type="submit" class="nav-link nav-button"> خروج </button>
-                        </form>
-                    </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Account" asp-action="Register"> ثبت نام </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Account" asp-action="Login"> ورود</a>
-                    </li>
-                } *@
+				@* @if (User.Identity.IsAuthenticated)
+				{
+				<li class="nav-item">
+				<a class="nav-link user-panel d-flex align-items-center"
+				asp-controller="User"
+				asp-action="Index"
+				asp-route-userCId="@currentUser.CId"
+				asp-route-userName="@currentUser.FullName.Replace(" ", "-")">
+				<div>
+				<img src="~/images/users/thumb60/@currentUser.ImageName"
+				alt="@currentUser.FullName" />
+				</div>
+				<span>@currentUser.FullName</span>
+				</a>
+				</li>
+				<li class="nav-item">
+				<form asp-controller="Account" asp-action="Logout" method="post">
+				<button type="submit" class="nav-link nav-button"> خروج </button>
+				</form>
+				</li>
+				} *@
 
-            </ul>
-        </div>
-        <!--/-->
-        <!--navbar-right-->
-        <div class="navbar-right ml-auto">
-            <div class="theme-switch-wrapper">
-                <label class="theme-switch" for="checkbox">
-                    <input type="checkbox" id="checkbox" />
-                    <div class="slider round"></div>
-                </label>
-            </div>
+				<li class="nav-item">
+					<NavLink href="/register" class="nav-link"> ثبت نام </NavLink>
+				</li>
+				<li class="nav-item">
+					<NavLink href="/login" class="nav-link"> ورود</NavLink>
+				</li>
 
-            <div class="search-icon">
-                <i class="icon_search"></i>
-            </div>
+			</ul>
+		</div>
+		<!--/-->
+		<!--navbar-right-->
+		<div class="navbar-right ml-auto">
+			<div class="theme-switch-wrapper">
+				<label class="theme-switch" for="checkbox">
+					<input type="checkbox" id="checkbox" @onchange="SwitchTheme" />
+					<div class="slider round"></div>
+				</label>
+			</div>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-    </div>
+			<div class="search-icon" @onclick="OpenSearch">
+				<i class="icon_search"></i>
+			</div>
+
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		</div>
+	</div>
 </nav>
 
 @code {
 
+	[Inject]
+	public IJSRuntime Js { get; set; } = null!;
+
+	private void SwitchTheme(ChangeEventArgs args)
+	{
+		Js.InvokeVoidAsync("switchTheme", (bool)args.Value!);
+	}
+
+	private void OpenSearch()
+	{
+		Js.InvokeVoidAsync("openSearch");
+	}
 }

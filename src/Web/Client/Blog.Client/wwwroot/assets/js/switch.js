@@ -17,8 +17,8 @@
         }
     }
 
-    function switchTheme(e) {
-        if (e.target.checked) {
+    function switchTheme(dark) {
+        if (dark) {
             document.documentElement.setAttribute('data-theme', 'dark');
             localStorage.setItem('theme', 'dark');
             document.body.classList.add('dark');
@@ -34,4 +34,4 @@
         }
     }
 
-    toggleSwitch.addEventListener('change', switchTheme, false);
+    // toggleSwitch.addEventListener('change', switchTheme, false);

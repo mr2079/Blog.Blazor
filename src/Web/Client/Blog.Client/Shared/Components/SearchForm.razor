@@ -1,7 +1,7 @@
 ﻿<div class="search">
 	<div class="container-fluid">
 		<div class="search-width  text-center">
-			<button type="button" class="close">
+			<button type="button" class="close" @onclick="CloseSearch">
 				<i class="icon_close"></i>
 			</button>
 			<form asp-controller="Home" asp-action="Search" class="search-form" method="get">
@@ -14,4 +14,11 @@
 
 @code {
 
+	[Inject]
+	public IJSRuntime Js { get; set; } = null!;
+
+	private void CloseSearch()
+	{
+		Js.InvokeVoidAsync("closeSearch");
+	}
 }

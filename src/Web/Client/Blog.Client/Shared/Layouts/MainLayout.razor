@@ -6,3 +6,26 @@
 <Footer></Footer>
 <SearchForm />
 
+<script>
+	function openSearch() {
+		$('.search').addClass('search-open');
+	}
+	function closeSearch() {
+		$('.search').removeClass('search-open');
+	}
+
+	function openSwalLoading() {
+		Swal.fire({
+			title: 'در حال دریافت اطلاعات',
+			text: 'لطفا منتظر بمانید',
+			showConfirmButton: false,
+			allowOutsideClick: false,
+			didOpen: function () {
+				Swal.showLoading();
+			}
+		})
+	}
+	function closeSwalLoading() {
+		Swal.close()
+	}
+</script>

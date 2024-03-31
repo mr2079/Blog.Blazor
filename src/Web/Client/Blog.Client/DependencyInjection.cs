@@ -12,7 +12,7 @@ public static class DependencyInjection
 		services.AddTransient<AuthInterceptorHandler>();
 
 		services.AddHttpClient("AppHttpClient",
-				client => client.BaseAddress = new Uri(""))
+				client => client.BaseAddress = new Uri("http://localhost:5041/api"))
 			.AddHttpMessageHandler<AuthInterceptorHandler>();
 
 		services.AddBlazoredLocalStorage();

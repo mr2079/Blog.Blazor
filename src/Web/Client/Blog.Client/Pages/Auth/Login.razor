@@ -1,0 +1,81 @@
+﻿@page "/login"
+
+<PageTitle>ورود به حساب</PageTitle>
+
+<style>
+	.field-validation-error {
+		color: #F67280;
+		font-size: .8rem;
+		padding: 10px 20px 0 20px;
+	}
+
+	.validation-summary-errors {
+		color: #F67280;
+		font-size: .8rem;
+		margin-bottom: 20px;
+		padding: 0 20px;
+	}
+
+	.info-box {
+		font-size: .8rem;
+	}
+</style>
+
+<section class="section pt-55 mb-50">
+	<div class="container-fluid">
+		<div class="sign widget">
+			<div class="section-title">
+				<h5>ورود به حساب</h5>
+			</div>
+
+			<EditForm Model="Model!" OnValidSubmit="Submit" class="sign-form widget-form contact_form">
+				<DataAnnotationsValidator/>
+
+				<div class="form-group">
+					<InputText @bind-Value="Model!.PhoneNumber" class="form-control" placeholder="شماره موبایل *" />
+					<ValidationMessage For="() => Model!.PhoneNumber" class="field-validation-error" />
+				</div>
+
+				<div class="form-group">
+					<InputText type="password" @bind-Value="Model!.Password" class="form-control" placeholder="کلمه عبور *" />
+					<ValidationMessage For="() => Model!.Password" class="field-validation-error" />
+				</div>
+
+				<div class="sign-controls form-group">
+					<div class="custom-control custom-checkbox">
+						<InputCheckbox @bind-Value="Model!.RememberMe" class="custom-control-input" id="rememberMe" />
+						<label class="custom-control-label" for="rememberMe"> مرا به خاطر بسپار </label>
+						<ValidationMessage For="() => Model!.RememberMe" class="field-validation-error" />
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn-custom">ورود</button>
+				</div>
+				<p class="form-group text-center">
+					حساب کاربری ندارید؟ <NavLink href="register" class="btn-link">ثبت نام کنید</NavLink>
+				</p>
+
+			</EditForm>
+		</div>
+	</div>
+</section>
+
+@code {
+	[SupplyParameterFromForm]
+	public LoginModel? Model { get; set; }
+
+	[Inject]
+	public IJSRuntime Js { get; set; } = null!;
+
+	protected override Task OnInitializedAsync()
+	{
+		Model ??= new();
+
+		return base.OnInitializedAsync();
+	}
+
+	private async Task Submit()
+	{
+		await Js.InvokeVoidAsync("openSwalLoading");
+	}
+}

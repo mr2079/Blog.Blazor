@@ -1,12 +1,12 @@
-/* -----------------------------------------------
-					Js Main
+﻿/* -----------------------------------------------
+                    Js Main
 --------------------------------------------------
     Template Name: NoonPost. - Personal Blog HTML Template
 --------------------------------------------------
 
 Table of Content
 
-	. Preloader
+    . Preloader
     . Navigation
     . Search
     . Back-top
@@ -44,12 +44,12 @@ Table of Content
     /* -----------------------------------
            Search
     ----------------------------------- */
-    $('.search-icon').on('click', function () {
-        $('.search').addClass('search-open');
-    });
-    $('.close').on('click', function () {
-        $('.search').removeClass('search-open');
-    });
+    //function openSearch() {
+    //    $('.search').addClass('search-open');
+    //}
+    //function closeSearch() {
+    //    $('.search').removeClass('search-open');
+    //}
 
 
     /* -----------------------------------
@@ -127,11 +127,24 @@ Table of Content
         }
     });
 
-
-
-
-
-   
+    /* -----------------------------------
+        swal-loading
+    -----------------------------------*/
+    //function openSwalLoading() {
+    //    Swal.fire({
+    //        icon: 'info',
+    //        title: 'در حال دریافت اطلاعات',
+    //        text: 'لطفا منتظر بمانید',
+    //        showConfirmButton: false,
+    //        allowOutsideClick: false,
+    //        didOpen: function () {
+    //            Swal.showLoading();
+    //        }
+    //    })
+    //}
+    //function closeSwalLoading() {
+    //    Swal.close()
+    //}
 })(jQuery);
 
 
