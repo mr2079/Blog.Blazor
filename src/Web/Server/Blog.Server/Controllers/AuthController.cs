@@ -1,6 +1,6 @@
-﻿using Blog.Application.Models.Auth;
-using Blog.Application.Models.Common;
-using Blog.Domain.Entites;
+﻿using Blog.Domain.Entites;
+using Blog.Shared.Models.Auth;
+using Blog.Shared.Models.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

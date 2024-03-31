@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Application\Blog.Application\Blog.Application.csproj" />
+    <ProjectReference Include="..\..\..\Core\Blog.Domain\Blog.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Core\Blog.Shared\Blog.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Blog.Application.Models.Common;
+﻿namespace Blog.Shared.Models.Common;
 
 public abstract class ApiResponseBase
 {

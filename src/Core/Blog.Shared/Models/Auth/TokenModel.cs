@@ -1,4 +1,4 @@
-﻿namespace Blog.Application.Models.Auth;
+﻿namespace Blog.Shared.Models.Auth;
 
 public class TokenModel
 {
