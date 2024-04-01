@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure.Core;
 using Blog.Application.Models.SiteSetting;
 using Blog.Domain.Entites;
 using Blog.Domain.Enums;
@@ -78,9 +77,11 @@ public class AuthController(
 
 		var userRoles = await userManager.GetRolesAsync(user!);
 
-		var authClaims = new List<Claim>()
+		var authClaims = new List<Claim>
 			{
-				new("UserName", user!.UserName ?? string.Empty),
+				new(ClaimTypes.Name, user?.UserName ?? string.Empty),
+				new("DisplayName", $"{user?.FirstName} {user?.LastName}"),
+				new("ImageName", user?.ImageName ?? string.Empty),
 				new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
 			};
 
@@ -112,7 +113,17 @@ public class AuthController(
 	#region Refresh
 
 	[HttpPost("[action]", Name = "RefreshTokens")]
-	public async Task<ActionResult<TokenModel>> Refresh()
+	public async Task<ActionResult<ApiResponse<TokenModel>>> Refresh()
+	{
+		return Ok();
+	}
+
+	#endregion
+
+	#region Logout
+
+	[HttpPost("[action]", Name = "Logout")]
+	public async Task<ActionResult<ApiResponse>> Logout()
 	{
 		return Ok();
 	}

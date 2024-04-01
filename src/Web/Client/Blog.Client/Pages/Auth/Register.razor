@@ -1,22 +1,6 @@
 ﻿@page "/register"
-@using Blog.Client.Utils.Services
 
 <PageTitle>ثبت نام</PageTitle>
-
-<style>
-	.field-validation-error {
-		color: #F67280;
-		font-size: .8rem;
-		padding: 10px 20px 0 20px;
-	}
-
-	.validation-summary-errors {
-		color: #F67280;
-		font-size: .8rem;
-		margin-bottom: 20px;
-		padding: 0 20px;
-	}
-</style>
 
 <section class="section pt-55 mb-50">
 	<div class="container-fluid">
@@ -74,18 +58,14 @@
 	[SupplyParameterFromForm]
 	public RegisterModel? Model { get; set; }
 
-	[Inject]
-	public IJSRuntime Js { get; set; } = null!;
-
-	[Inject]
-	public HttpService Http { get; set; } = null!;
-
-	[Inject]
-	public NavigationManager Navigation { get; set; } = null!;
+	[Inject] public IJSRuntime Js { get; set; } = null!;
+	[Inject] public HttpService Http { get; set; } = null!;
+	[Inject] public NavigationManager Navigation { get; set; } = null!;
 
 	protected override Task OnInitializedAsync()
 	{
 		Model ??= new();
+
 		return base.OnInitializedAsync();
 	}
 

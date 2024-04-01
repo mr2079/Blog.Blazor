@@ -1,27 +1,6 @@
 ﻿@page "/login"
-@using Blog.Client.Utils.Services
-@using Blazored.LocalStorage
 
 <PageTitle>ورود به حساب</PageTitle>
-
-<style>
-	.field-validation-error {
-		color: #F67280;
-		font-size: .8rem;
-		padding: 10px 20px 0 20px;
-	}
-
-	.validation-summary-errors {
-		color: #F67280;
-		font-size: .8rem;
-		margin-bottom: 20px;
-		padding: 0 20px;
-	}
-
-	.info-box {
-		font-size: .8rem;
-	}
-</style>
 
 <section class="section pt-55 mb-50">
 	<div class="container-fluid">
@@ -31,7 +10,7 @@
 			</div>
 
 			<EditForm Model="Model!" OnValidSubmit="Submit" class="sign-form widget-form contact_form">
-				<DataAnnotationsValidator/>
+				<DataAnnotationsValidator />
 
 				<div class="form-group">
 					<InputText @bind-Value="Model!.PhoneNumber" class="form-control" placeholder="شماره موبایل *" />
@@ -66,17 +45,11 @@
 	[SupplyParameterFromForm]
 	public LoginModel? Model { get; set; }
 
-	[Inject]
-	public IJSRuntime Js { get; set; } = null!;
-
-	[Inject]
-	public HttpService Http { get; set; } = null!;
-
-	[Inject]
-	public NavigationManager Navigation { get; set; } = null!;
-
-	[Inject]
-	public ILocalStorageService LocalStorage { get; set; } = null!;
+	[Inject] public IJSRuntime Js { get; set; } = null!;
+	[Inject] public HttpService Http { get; set; } = null!;
+	[Inject] public NavigationManager Navigation { get; set; } = null!;
+	[Inject] public ILocalStorageService LocalStorage { get; set; } = null!;
+	[Inject] public AuthenticationStateProvider StateProvider { get; set; } = null!;
 
 	protected override Task OnInitializedAsync()
 	{
@@ -91,14 +64,14 @@
 
 		var res = await Http.PostAsync<ApiResponse<TokenModel>>("auth/login", Model!);
 
-		await Js.InvokeVoidAsync("console.log", res);
-
 		await Js.InvokeVoidAsync("closeSwal");
 
 		if (res is { Succeeded: true })
 		{
 			await LocalStorage.SetItemAsStringAsync("_at", res.Content?.AccessToken!);
 			await LocalStorage.SetItemAsStringAsync("_rt", res.Content?.RefreshToken!);
+
+			await StateProvider.GetAuthenticationStateAsync();
 
 			await Js.InvokeVoidAsync("openSwal",
 				"success",
