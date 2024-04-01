@@ -99,12 +99,19 @@
 
 		if (res is { Succeeded: true })
 		{
-			await Js.InvokeVoidAsync("openSwal", "success", res.Messages.First());
+			await Js.InvokeVoidAsync("openSwal",
+				"success",
+				string.Join("<br/>",
+					res.Messages));
+
 			Navigation.NavigateTo("/login");
 		}
 		else
 		{
-			await Js.InvokeVoidAsync("openSwal", "error", res?.Messages.First(), 5000);
+			await Js.InvokeVoidAsync("openSwal",
+				"error",
+				string.Join("<br/>", res?.Messages!),
+				5000);
 		}
 	}
 }

@@ -28,5 +28,8 @@ public class User : IdentityUser<Guid>, IBaseIdentityEntity
     // Navigation properties
     public ICollection<Comment>? Comments { get; set; }
     public ICollection<Article>? Articles { get; set; }
+
+    public string? RefreshToken { get; set; }
+    public DateTime? RefreshTokenExpiryTime { get; set; }
 }
 

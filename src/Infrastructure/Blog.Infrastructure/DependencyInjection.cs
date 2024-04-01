@@ -1,9 +1,11 @@
 ﻿using System.Text;
 using Blog.Application.Contracts.Persistence.Common;
+using Blog.Application.Contracts.Services;
 using Blog.Application.Models.SiteSetting;
 using Blog.Domain.Entites;
 using Blog.Infrastructure.Data;
 using Blog.Infrastructure.Implementation.Repositories.Common;
+using Blog.Infrastructure.Implementation.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +58,7 @@ public static class DependencyInjection
 				ValidateLifetime = true,
 				ValidateIssuerSigningKey = true,
 				ClockSkew = TimeSpan.Zero,
-				ValidAudiences = siteSettings.Jwt.ValidAudiences,
+				ValidAudience = siteSettings.Jwt.ValidAudience,
 				ValidIssuer = siteSettings.Jwt.ValidIssuer,
 				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(siteSettings.Jwt.SecurityKey))
 			};
@@ -66,6 +68,8 @@ public static class DependencyInjection
 		services.AddScoped(typeof(ICommandRepository<,>), typeof(Repository<,>));
 
 		services.AddScoped<DatabaseInitializer>();
+
+		services.AddScoped<ITokenService, TokenService>();
 
 		return services;
 	}

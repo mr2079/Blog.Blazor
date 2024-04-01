@@ -29,11 +29,11 @@
 		Swal.close()
 	}
 
-	function openSwal(icon, text, time = 2000) {
+	function openSwal(icon, messages, time = 2000) {
 		let timerInterval;
 		Swal.fire({
 			icon: icon,
-			text: text,
+			html: messages,
 			timer: time,
 			timerProgressBar: true,
 			showConfirmButton: false,

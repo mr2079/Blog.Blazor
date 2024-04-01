@@ -1,4 +1,6 @@
 ﻿@page "/login"
+@using Blog.Client.Utils.Services
+@using Blazored.LocalStorage
 
 <PageTitle>ورود به حساب</PageTitle>
 
@@ -67,6 +69,15 @@
 	[Inject]
 	public IJSRuntime Js { get; set; } = null!;
 
+	[Inject]
+	public HttpService Http { get; set; } = null!;
+
+	[Inject]
+	public NavigationManager Navigation { get; set; } = null!;
+
+	[Inject]
+	public ILocalStorageService LocalStorage { get; set; } = null!;
+
 	protected override Task OnInitializedAsync()
 	{
 		Model ??= new();
@@ -77,5 +88,33 @@
 	private async Task Submit()
 	{
 		await Js.InvokeVoidAsync("openSwalLoading");
+
+		var res = await Http.PostAsync<ApiResponse<TokenModel>>("auth/login", Model!);
+
+		await Js.InvokeVoidAsync("console.log", res);
+
+		await Js.InvokeVoidAsync("closeSwal");
+
+		if (res is { Succeeded: true })
+		{
+			await LocalStorage.SetItemAsStringAsync("_at", res.Content?.AccessToken!);
+			await LocalStorage.SetItemAsStringAsync("_rt", res.Content?.RefreshToken!);
+
+			await Js.InvokeVoidAsync("openSwal",
+				"success",
+				string.Join("<br/>",
+					res.Messages));
+
+			// TODO: Redirect to user panel
+
+			Navigation.NavigateTo("/");
+		}
+		else
+		{
+			await Js.InvokeVoidAsync("openSwal",
+				"error",
+				string.Join("<br/>", res?.Messages!),
+				5000);
+		}
 	}
 }
