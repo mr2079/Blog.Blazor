@@ -1,4 +1,6 @@
-﻿using Blog.Domain.Entites;
+﻿using AutoMapper;
+using Blog.Domain.Entites;
+using Blog.Domain.Enums;
 using Blog.Shared.Models.Auth;
 using Blog.Shared.Models.Common;
 using Microsoft.AspNetCore.Identity;
@@ -9,13 +11,12 @@ namespace Blog.Server.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class AuthController(
-	UserManager<User> userManager) : ControllerBase
+	UserManager<User> userManager,
+	IMapper mapper) : ControllerBase
 {
 	[HttpPost("[action]", Name = "Register")]
 	public async Task<ActionResult<ApiResponse>> Register(RegisterModel info)
 	{
-		Thread.Sleep(2000);
-
 		var res = new ApiResponse();
 
 		var existedUser = await userManager.FindByNameAsync(info.PhoneNumber);
@@ -26,13 +27,7 @@ public class AuthController(
 			return Ok(res);
 		}
 
-		var user = new User()
-		{
-			UserName = info.PhoneNumber,
-			PhoneNumber = info.PhoneNumber,
-			FirstName = info.FirstName,
-			LastName = info.LastName
-		};
+		var user = mapper.Map<User>(info);
 
 		var createResult = await userManager.CreateAsync(user, info.Password);
 
@@ -43,7 +38,7 @@ public class AuthController(
 			return Ok(res);
 		}
 
-		await userManager.AddToRoleAsync(user, "User");
+		await userManager.AddToRoleAsync(user, RoleEnum.User.ToString());
 
 		res.StatusCode = StatusCodes.Status200OK;
 		res.Messages.Add("ثبت نام با موفقیت انجام شد");
@@ -51,9 +46,9 @@ public class AuthController(
 		return Ok(res);
 	}
 
-	[HttpPost("[action]", Name = "Login")]
-	public async Task<ActionResult<ApiResponse<TokenModel>>> Login(LoginModel info)
-	{
-		return Ok();
-	}
+	//[HttpPost("[action]", Name = "Login")]
+	//public async Task<ActionResult<ApiResponse<TokenModel>>> Login(LoginModel info)
+	//{
+	//	return Ok();
+	//}
 }

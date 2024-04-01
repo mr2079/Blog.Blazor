@@ -1,34 +1,58 @@
 
+using Blog.Application;
+using Blog.Infrastructure;
+using Blog.Infrastructure.Data.Extensions;
+
 namespace Blog.Server
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
+            const string corsPolicyName = "Blazor";
+
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
+            builder.Services.AddApplicationServices(builder.Configuration);
+            builder.Services.AddInfrastructureServices();
 
-            // Configure the HTTP request pipeline.
+            await builder.Services.InitializeDatabaseAsync();
+
+            builder.Services.AddCors(config =>
+            {
+	            config.AddPolicy(corsPolicyName, options =>
+	            {
+		            var validOrigins = builder.Configuration
+			            .GetSection("Cors:Valid").Get<List<string>>();
+
+		            options.WithOrigins(validOrigins!.ToArray())
+			            .AllowAnyMethod()
+			            .AllowAnyHeader();
+	            });
+            });
+
+			var app = builder.Build();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseAuthorization();
+			app.UseRouting();
 
+			app.UseCors(corsPolicyName);
 
-            app.MapControllers();
+			app.UseAuthentication();
+			app.UseAuthorization();
 
-            app.Run();
+			app.MapControllers();
+
+            await app.RunAsync();
         }
     }
 }

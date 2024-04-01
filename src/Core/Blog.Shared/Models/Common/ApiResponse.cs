@@ -2,8 +2,18 @@
 
 public abstract class ApiResponseBase
 {
-	public int StatusCode { get; set; }
-	public bool Succeeded => StatusCode % 2 >= 1 && StatusCode % 2 < 1.5;
+	private int _statusCode;
+	public int StatusCode
+	{
+		get => _statusCode;
+		set
+		{
+			_statusCode = value;
+
+			Succeeded = _statusCode is >= 200 and < 300;
+		}
+	}
+	public bool Succeeded { get; set; }
 	public List<string> Messages { get; set; } = new();
 }
 

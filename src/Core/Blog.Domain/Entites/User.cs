@@ -11,6 +11,8 @@ public class User : IdentityUser<Guid>, IBaseIdentityEntity
 	public DateTime? UpdateDate { get; set; }
 	public bool IsDeleted { get; set; }
 
+	public bool IsConfirmed { get; set; }
+
 	[MaxLength(255)]
     public string ImageName { get; set; } = "Default.jpg";
 

@@ -43,20 +43,3 @@ public class ApplicationContext : IdentityDbContext<User, Role, Guid>
 
 	#endregion
 }
-
-//public class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationContext>
-//{
-//    public ApplicationContext CreateDbContext(string[] args)
-//    {
-//        var configuration = new ConfigurationBuilder()
-//            .SetBasePath(Directory.GetCurrentDirectory())
-//            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-//            .AddEnvironmentVariables()
-//            .Build();
-
-//        var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-//        optionsBuilder.UseSqlServer(configuration.GetValue<string>("ConnectionStrings:SqlServer"));
-
-//        return new ApplicationContext(optionsBuilder.Options);
-//    }
-//}

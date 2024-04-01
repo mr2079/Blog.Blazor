@@ -25,7 +25,22 @@
 			}
 		})
 	}
-	function closeSwalLoading() {
+	function closeSwal() {
 		Swal.close()
+	}
+
+	function openSwal(icon, text, time = 2000) {
+		let timerInterval;
+		Swal.fire({
+			icon: icon,
+			text: text,
+			timer: time,
+			timerProgressBar: true,
+			showConfirmButton: false,
+			allowOutsideClick: false,
+			willClose: () => {
+				clearInterval(timerInterval);
+			}
+		})
 	}
 </script>
