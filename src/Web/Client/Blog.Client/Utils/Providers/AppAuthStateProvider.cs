@@ -16,9 +16,14 @@ public class AppAuthStateProvider(
 
         if (string.IsNullOrWhiteSpace(accessToken)
             || string.IsNullOrWhiteSpace(refreshToken))
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+        {
+	        var unauthenticated = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+	        NotifyAuthenticationStateChanged(Task.FromResult(unauthenticated));
 
-        var identity = new ClaimsIdentity(ParseClaimsFromJwt(accessToken), "jwt");
+	        return unauthenticated;
+        }
+
+		var identity = new ClaimsIdentity(ParseClaimsFromJwt(accessToken), "jwt");
         var user = new ClaimsPrincipal(identity);
         var state = new AuthenticationState(user);
 

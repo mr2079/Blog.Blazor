@@ -12,23 +12,23 @@
 		<div class="collapse navbar-collapse" id="main_nav">
 			<ul class="navbar-nav ml-auto mr-auto">
 
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="javascript:void(0)"
-					   data-toggle="dropdown">دسته&zwnj;بندی&zwnj;ها</a>
-					<ul class="dropdown-menu fade-up">
-						@* @foreach (var category in categories)
-						{
-						<li>
-						<a class="dropdown-item"
-						asp-controller="Article"
-						asp-action="Category"
-						asp-route-categoryCId="@category.CId"
-						asp-route-categoryTitle="@category.Title.Replace(" ", "-")"> @category.Title </a>
-						</li>
-						} *@
-					</ul>
+				@* <li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="javascript:void(0)"
+				data-toggle="dropdown">دسته&zwnj;بندی&zwnj;ها</a>
+				<ul class="dropdown-menu fade-up">
+				@foreach (var category in categories)
+				{
+				<li>
+				<a class="dropdown-item"
+				asp-controller="Article"
+				asp-action="Category"
+				asp-route-categoryCId="@category.CId"
+				asp-route-categoryTitle="@category.Title.Replace(" ", "-")"> @category.Title </a>
 				</li>
-				
+				}
+				</ul>
+				</li>*@
+
 				<AuthorizeView>
 					<Authorized>
 						<li class="nav-item">
@@ -41,7 +41,8 @@
 							</NavLink>
 						</li>
 						<li class="nav-item">
-								<button type="button" class="nav-link nav-button"> خروج </button>
+							<button @onclick="() => Logout(context.User.Identity?.Name)"
+								type="button" class="nav-link nav-button"> خروج </button>
 						</li>
 					</Authorized>
 					<NotAuthorized>
@@ -70,7 +71,11 @@
 				<i class="icon_search"></i>
 			</div>
 
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button"
+					data-toggle="collapse"
+					data-target="#main_nav"
+					aria-expanded="false"
+					aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 		</div>
@@ -80,6 +85,10 @@
 @code {
 
 	[Inject] public IJSRuntime Js { get; set; } = null!;
+	[Inject] public HttpService Http { get; set; } = null!;
+	[Inject] public AuthenticationStateProvider StateProvider { get; set; } = null!;
+	[Inject] public NavigationManager Navigation { get; set; } = null!;
+	[Inject] public ILocalStorageService LocalStorage { get; set; } = null!;
 
 	private void SwitchTheme(ChangeEventArgs args)
 	{
@@ -89,5 +98,21 @@
 	private void OpenSearch()
 	{
 		Js.InvokeVoidAsync("openSearch");
+	}
+
+	private async Task Logout(string? userName)
+	{
+		var res = await Http.PostAsync<ApiResponse>("auth/logout", new LogoutModel
+		{
+			UserName = userName
+		});
+
+		if (res!.Succeeded)
+		{
+			await LocalStorage.RemoveItemsAsync(new List<string> { "_at", "_rt" });
+			await StateProvider.GetAuthenticationStateAsync();
+
+			Navigation.NavigateTo("/");
+		}
 	}
 }

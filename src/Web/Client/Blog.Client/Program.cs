@@ -11,7 +11,7 @@ public class Program
 		builder.RootComponents.Add<App>("#app");
 		builder.RootComponents.Add<HeadOutlet>("head::after");
 
-		builder.Services.AddAppServices();
+		builder.Services.AddAppServices(builder.Configuration);
 
 		await builder.Build().RunAsync();
 	}

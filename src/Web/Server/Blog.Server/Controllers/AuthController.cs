@@ -80,7 +80,7 @@ public class AuthController(
 		var authClaims = new List<Claim>
 			{
 				new(ClaimTypes.Name, user?.UserName ?? string.Empty),
-				new("DisplayName", $"{user?.FirstName} {user?.LastName}"),
+				new("DisplayName", $"{user?.DisplayName}"),
 				new("ImageName", user?.ImageName ?? string.Empty),
 				new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
 			};
@@ -113,9 +113,61 @@ public class AuthController(
 	#region Refresh
 
 	[HttpPost("[action]", Name = "RefreshTokens")]
-	public async Task<ActionResult<ApiResponse<TokenModel>>> Refresh()
+	public async Task<ActionResult<ApiResponse<TokenModel>>> Refresh(RefreshModel info)
 	{
-		return Ok();
+		var response = new ApiResponse<TokenModel>();
+
+		var principal = tokenService
+			.GetPrincipalFromExpiredToken(info.AccessToken);
+
+		if (principal is null)
+		{
+			response.StatusCode = StatusCodes.Status400BadRequest;
+			return response;
+		}
+
+		var user = await userManager.FindByNameAsync(principal.Identity?.Name!);
+
+		if (user is null)
+		{
+			response.StatusCode = StatusCodes.Status404NotFound;
+			return response;
+		}
+
+		if (user.RefreshToken != info.RefreshToken ||
+		    user.RefreshTokenExpiryTime <= DateTime.Now)
+		{
+			user.RefreshToken = null;
+			user.RefreshTokenExpiryTime = null;
+			await userManager.UpdateAsync(user);
+
+			response.StatusCode = StatusCodes.Status400BadRequest;
+			return response;
+		}
+
+		var newAccessToken = tokenService.CreateAccessToken(principal.Claims.ToList());
+		var newRefreshToken = tokenService.GenerateToken(64);
+
+		user.RefreshToken = newRefreshToken;
+
+		var updateRes = await userManager.UpdateAsync(user);
+
+		if (!updateRes.Succeeded)
+		{
+			response.StatusCode = StatusCodes.Status500InternalServerError;
+			return response;
+		}
+
+		response.StatusCode = StatusCodes.Status200OK;
+		response.Content = new()
+		{
+			AccessToken = new JwtSecurityTokenHandler().WriteToken(newAccessToken),
+			AccessTokenExpiryDateTime = newAccessToken.ValidTo.ToLocalTime(),
+			RefreshToken = newRefreshToken,
+			RefreshTokenExpiryDateTime = user.RefreshTokenExpiryTime
+		};
+
+		return Ok(response);
 	}
 
 	#endregion
@@ -123,9 +175,31 @@ public class AuthController(
 	#region Logout
 
 	[HttpPost("[action]", Name = "Logout")]
-	public async Task<ActionResult<ApiResponse>> Logout()
+	public async Task<ActionResult<ApiResponse>> Logout(LogoutModel info)
 	{
-		return Ok();
+		var response = new ApiResponse();
+
+		if (string.IsNullOrWhiteSpace(info.UserName))
+		{
+			response.StatusCode = StatusCodes.Status400BadRequest;
+			return response;
+		}
+
+		var user = await userManager.FindByNameAsync(info.UserName);
+
+		if (user is null)
+		{
+			response.StatusCode = StatusCodes.Status404NotFound;
+			return response;
+		}
+
+		user.RefreshToken = null;
+		user.RefreshTokenExpiryTime = null;
+		await userManager.UpdateAsync(user);
+
+		response.StatusCode = StatusCodes.Status200OK;
+
+		return Ok(response);
 	}
 
 	#endregion

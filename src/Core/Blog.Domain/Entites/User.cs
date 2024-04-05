@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace Blog.Domain.Entites;
@@ -14,22 +15,24 @@ public class User : IdentityUser<Guid>, IBaseIdentityEntity
 	public bool IsConfirmed { get; set; }
 
 	[MaxLength(255)]
-    public string ImageName { get; set; } = "Default.jpg";
+	public string ImageName { get; set; } = "Default.jpg";
 
-    [MaxLength(255)]
-    public string FirstName { get; set; } = string.Empty;
+	[MaxLength(255)]
+	public string FirstName { get; set; } = string.Empty;
 
-    [MaxLength(255)]
-    public string LastName { get; set; } = string.Empty;
+	[MaxLength(255)]
+	public string LastName { get; set; } = string.Empty;
 
-    [MaxLength(600)]
-    public string? Description { get; set; } = string.Empty;
+	[NotMapped] public string? DisplayName => $"{FirstName} {LastName}";
 
-    // Navigation properties
-    public ICollection<Comment>? Comments { get; set; }
-    public ICollection<Article>? Articles { get; set; }
+	[MaxLength(600)]
+	public string? Description { get; set; } = string.Empty;
 
-    public string? RefreshToken { get; set; }
-    public DateTime? RefreshTokenExpiryTime { get; set; }
+	// Navigation properties
+	public ICollection<Comment>? Comments { get; set; }
+	public ICollection<Article>? Articles { get; set; }
+
+	public string? RefreshToken { get; set; }
+	public DateTime? RefreshTokenExpiryTime { get; set; }
 }
 
