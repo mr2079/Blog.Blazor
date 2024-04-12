@@ -1,0 +1,103 @@
+﻿@page "/panel"
+@using Blog.Client.Shared.Components.User
+@attribute [Authorize]
+
+<PageTitle>پنل کاربری</PageTitle>
+
+<AuthorizeView>
+	<Authorized>
+		<section class="section author full-space mb-40 pt-55">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<!--widget-author-->
+						<div class="widget-author inner-width">
+
+							<div class="img-box user-img-box">
+								<NavLink href="#">
+									<img src="/images/users/thumb-md/@context.User.FindFirst("ImageName")?.Value"
+										 alt="@context.User.FindFirst("DisplayName")?.Value">
+								</NavLink>
+							</div>
+
+							<h6><span>@context.User.FindFirst("DisplayName")?.Value</span></h6>
+
+							<p>@context.User.Identity?.Name</p>
+
+							@* @if (Model.Email != null)
+							{
+							<p>@Model.Email</p>
+							}
+							@if (Model.Description != null)
+							{
+							<div class="user-description">
+							@Html.Raw(Model.Description)
+							</div>
+							<br />
+							} *@
+							@* @if (Model.Articles.Count() > 0)
+							{
+							<div class="link">@ViewData["ArticlesCount"] مقاله</div>
+							}
+							else
+							{
+							<div class="link">هیچ مقاله&zwnj;ای وجود ندارد</div>
+							} *@
+							@* @if (User.IsInRole("Admin"))
+							{
+							<a asp-controller="Admin" asp-action="Index" class="categorie">پنل مدیریت</a>
+							} *@
+
+							<NavLink href="#" class="categorie">ایجاد مقاله</NavLink>
+
+							<div class="link">
+								<!-- Button trigger modal -->
+								<button type="button" class="nav-button" @onclick="OnShowEditUserInfoModalClick">
+									ویرایش اطلاعات
+								</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		@* @if (Model.Articles.Count > 0)
+		{
+		<partial name="_ArticlesListPartial" model="@Model.Articles" view-data="ViewData" />
+		}
+		else
+		{
+		<div class="no-content">
+		<img src="~/assets/img/no-content.gif" />
+		</div>
+		} *@
+
+		<Modal @ref="_modal" 
+		       IsVerticallyCentered="true"
+		       IsScrollable="true" 
+		       UseStaticBackdrop="true"
+		       CloseOnEscape="false">
+		</Modal>
+
+	</Authorized>
+</AuthorizeView>
+
+
+@code {
+
+	private Modal _modal = default!;
+
+	[Inject] public NavigationManager Navigation { get; set; } = null!;
+
+	protected override Task OnInitializedAsync()
+	{
+		return base.OnInitializedAsync();
+	}
+
+	private async Task OnShowEditUserInfoModalClick()
+	{
+		await _modal.ShowAsync<EditUserInfoModal>(title: "ویرایش اطلاعات");
+	}
+}

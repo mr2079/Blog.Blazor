@@ -1,0 +1,56 @@
+﻿<AuthorizeView>
+	<Authorized>
+		<div class="sign widget w-100">
+			@* <EditForm> *@
+
+			<div class="form-group select-user-img">
+			<div class="img-box user-img-box">
+			<img id="selectedImg" src="/images/users/thumb-md/Default.jpg"/>
+			</div>
+			@* <input asp-for=Image onchange="readURL(this)" class="user-img-input" type="file"> *@
+			</div>
+
+			<form class="sign-form widget-form contact_form ">
+
+				<div class="form-group">
+					<input class="form-control" placeholder="نام">
+				</div>
+
+				<div class="form-group">
+					<input class="form-control" placeholder="نام خانوادگی">
+				</div>
+
+				<div class="form-group">
+					<input class="form-control" placeholder="شماره موبایل">
+				</div>
+
+				<div class="form-group">
+					<input class="form-control" placeholder="آدرس ایمیل">
+				</div>
+
+				<div class="form-group">
+					<textarea class="form-control" placeholder="درباره من"></textarea>
+				</div>
+
+				<div class="form-group">
+					<input class="form-control" placeholder="کلمه عبور جدید">
+				</div>
+
+				<div class="form-group">
+					<input class="form-control" placeholder="تکرار کلمه عبور جدید">
+				</div>
+
+				<div class="form-group">
+					<button type="submit" class="btn-custom">تایید</button>
+				</div>
+
+			</form>
+
+			@* </EditForm> *@
+		</div>
+	</Authorized>
+</AuthorizeView>
+
+@code {
+
+}

@@ -21,6 +21,8 @@ public static class DependencyInjection
 
 		services.AddBlazoredLocalStorage();
 
+		services.AddBlazorBootstrap();
+
 		services.AddScoped<AuthenticationStateProvider, AppAuthStateProvider>();
 
 		services.AddAuthorizationCore();

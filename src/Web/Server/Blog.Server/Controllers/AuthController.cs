@@ -38,6 +38,9 @@ public class AuthController(
 
 		var user = mapper.Map<User>(info);
 
+        user.Sku = $"npuser-{new Random().Next(100000, 999999)}";
+        user.Slug = $"{user.FirstName.TrimStart().TrimEnd()}-{user.LastName.TrimStart().TrimEnd()}";
+
 		var createResult = await userManager.CreateAsync(user, info.Password);
 
 		if (!createResult.Succeeded)
@@ -85,7 +88,7 @@ public class AuthController(
 				new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
 			};
 
-		authClaims.AddRange(userRoles.Select(role => new Claim("Role", role)));
+		authClaims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
 
 		var token = tokenService.CreateAccessToken(authClaims);
 		var refreshToken = tokenService.GenerateToken(64);
